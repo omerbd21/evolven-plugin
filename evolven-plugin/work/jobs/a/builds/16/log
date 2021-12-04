@@ -1,0 +1,7 @@
+Started by user unknown or anonymous
+Building in workspace /home/omer/IdeaProjects/evolven-plugin/evolven-plugin/work/workspace/a
+{"Next":{"Role":"DevOps","IsAdmin":"false","EvolvenServerIP":"172.30.0.109","User":"omerbd21-jenkins-plugin","Message":{"Notify":"false","Title":"Evolven","text":"Welcome to Evolven Next."},"ID":"f9730b4f55c9e0fdd5ad1388cb5097f126813463"}}
+{"Next":{"EvolvenServerIP":"172.30.0.109","Error":{"Message":{"Notify":"true","text":"Failed creating blended record"}}}}
+{"Next":{"EvolvenServerIP":"172.30.0.109","Message":{"Notify":"false","Title":"Bookmarks","text":"Snapshot \"a\" created successfully."},"ID":"3965"}}
+Evolven scan triggered.
+Finished: SUCCESS

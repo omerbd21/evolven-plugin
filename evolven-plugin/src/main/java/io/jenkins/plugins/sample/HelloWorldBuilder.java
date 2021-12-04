@@ -27,6 +27,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
+import hudson.model.Result;
+import java.io.IOException;
 
 
 public class HelloWorldBuilder extends Builder implements SimpleBuildStep {
@@ -72,7 +74,7 @@ public class HelloWorldBuilder extends Builder implements SimpleBuildStep {
     public void setUseFrench(boolean useFrench) {
         this.useFrench = useFrench;
     }*/
-    public String getDate(long millis){
+    private String getDate(long millis){
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(millis);
 
@@ -81,48 +83,86 @@ public class HelloWorldBuilder extends Builder implements SimpleBuildStep {
         int mDay = calendar.get(Calendar.DAY_OF_MONTH);
         return String.format("%s/%s/%s", mMonth, mDay, mYear);
     }
+    private JSONObject sendRequest(URL url, int step, TaskListener listener) {
+        try {
+            HttpURLConnection connection = null;
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            int status = connection.getResponseCode();
+            if (status == 200) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                br.close();
+                String response = sb.toString();
+                Object obj = JSONValue.parse(response);
+                JSONObject jsonObject = (JSONObject) obj;
+                return jsonObject;
+            }
+        }
+        catch (java.io.IOException io){
+            listener.getLogger().println(io);
+        }
+        listener.getLogger().println("ERROR in step " + step);
+        return new JSONObject();
+    }
     @Override
     public void perform(Run<?, ?> run, FilePath workspace, Launcher launcher, TaskListener listener) throws InterruptedException, IOException {
         //Use login to fetch session ID
-        String deployment_id = run.getId();
-        //Get deployment_key
-        String deployment_key = run.getFullDisplayName();
-        deployment_key = deployment_key.replaceAll("\\s", "");
-        // Get deployment_start
+        String deploymentId = run.getId();
+        //Get deploymentKey
+        String deploymentKey = run.getFullDisplayName();
+        deploymentKey = deploymentKey.replaceAll("\\s", "");
+        // Get deploymentStart
         long millis = run.getStartTimeInMillis();
-        String deployment_start = getDate(millis);
+        String deploymentStart = getDate(millis);
         // Get deployment commit ids
+        String deploymentCommits = "";
         // Get deployment deeplink (Jenkins URL with deployment id)
-        //String deployment_deeplink = run.getAbsoluteUrl();
-        String deployment_deeplink = "http://localhost:8080/jenkins/a/5";
+        //String deploymentDeeplink = run.getAbsoluteUrl();
+        String deploymentDeeplink = "http://localhost:8080/jenkins/a/5";
 
         String loginUrl = String.format("/enlight.server/next/api?action=login&json=true&&" +
                 "user=%s&pass=%s", this.username, this.password);
         URL loginRequest = new URL(this.apiUrl + loginUrl);
-
-        HttpURLConnection connection = null;
-        connection = (HttpURLConnection) loginRequest.openConnection();
-        connection.setRequestMethod("GET");
-        int status = connection.getResponseCode();
-        if (status == 200){
-            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line+"\n");
-            }
-            br.close();
-            String response = sb.toString();
-            Object obj=JSONValue.parse(response);
-            JSONObject jsonObject = (JSONObject) obj;
-            JSONObject next = (JSONObject) jsonObject.get("Next");
-            String sessionId = (String) next.get("ID");
+        JSONObject login = sendRequest(loginRequest, 1, listener);
+        if (login.toString().equals("{}")) {
+            run.setResult(Result.fromString("FAILURE"));
+            System.exit(-1);
         }
-        else {
-            listener.getLogger().println("Login Error.");
+        JSONObject next = (JSONObject) login.get("Next");
+        String sessionId = (String) next.get("ID");
+        listener.getLogger().println(login.toString());
+
+
+        String blendedUrl = String.format("/enlight.server/next/blended?action=create&json=true&EvolvenSessionKey=%s" +
+                "&event=$deploymentKey&eventId=%s&type=Deployment&source=Jenkins&host=%s&message=%s&start=%s" +
+                "&envId=%s&ApplicationName=%s&deeplink=%s&authorized=true&automatic=true", sessionId, deploymentKey,
+                deploymentId, hosts, deploymentCommits, deploymentStart, envId, app, deploymentDeeplink );
+        URL blendedRequest = new URL(this.apiUrl + blendedUrl);
+        JSONObject blended = sendRequest(blendedRequest, 2, listener);
+        if (blended.toString().equals("{}")) {
+            run.setResult(Result.fromString("FAILURE"));
+            System.exit(-1);
         }
+        listener.getLogger().println(blended.toString());
 
 
+        String snapshotUrl = String.format("/enlight.server/next/bookmarks?action=create&json=true&EvolvenSessionKey=%s"
+                + "&time=0&Name=%s&envId=%s&scan=true&start=true&urgent=true&fastMode=true", sessionId, deploymentKey,
+                envId);
+        URL snapshotRequest = new URL(this.apiUrl + snapshotUrl);
+        JSONObject snapshot = sendRequest(snapshotRequest, 3, listener);
+        if (snapshot.toString().equals("{}")) {
+            run.setResult(Result.fromString("FAILURE"));
+            System.exit(-1);
+        }
+        listener.getLogger().println(snapshot.toString());
+
+        listener.getLogger().println("Evolven scan triggered.");
 
     }
 
