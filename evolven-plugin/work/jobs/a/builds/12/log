@@ -2,7 +2,7 @@ Started by user unknown or anonymous
 Building in workspace /home/omer/IdeaProjects/evolven-plugin/evolven-plugin/work/workspace/a
 ERROR: Build step failed with exception
 java.lang.ClassCastException: class org.json.simple.JSONObject cannot be cast to class java.lang.String (org.json.simple.JSONObject is in unnamed module of loader hudson.ClassicPluginStrategy$AntClassLoader2 @10f4e01b; java.lang.String is in module java.base of loader 'bootstrap')
-	at io.jenkins.plugins.sample.HelloWorldBuilder.perform(HelloWorldBuilder.java:103)
+	at io.jenkins.plugins.sample.EvolvenBuilder.perform(EvolvenBuilder.java:103)
 	at hudson.tasks.BuildStepCompatibilityLayer.perform(BuildStepCompatibilityLayer.java:81)
 	at hudson.tasks.BuildStepMonitor$1.perform(BuildStepMonitor.java:20)
 	at hudson.model.AbstractBuild$AbstractBuildExecution.perform(AbstractBuild.java:744)

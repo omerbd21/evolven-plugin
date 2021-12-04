@@ -5,7 +5,7 @@ java.lang.IllegalStateException: Root URL isn't configured yet. Cannot compute a
 	at hudson.model.Item.getAbsoluteUrl(Item.java:206)
 	at hudson.model.AbstractItem.getAbsoluteUrl(AbstractItem.java:579)
 	at hudson.model.Run.getAbsoluteUrl(Run.java:1010)
-	at io.jenkins.plugins.sample.HelloWorldBuilder.perform(HelloWorldBuilder.java:86)
+	at io.jenkins.plugins.sample.EvolvenBuilder.perform(EvolvenBuilder.java:86)
 	at hudson.tasks.BuildStepCompatibilityLayer.perform(BuildStepCompatibilityLayer.java:81)
 	at hudson.tasks.BuildStepMonitor$1.perform(BuildStepMonitor.java:20)
 	at hudson.model.AbstractBuild$AbstractBuildExecution.perform(AbstractBuild.java:744)

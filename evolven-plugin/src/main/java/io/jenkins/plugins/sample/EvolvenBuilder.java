@@ -28,10 +28,11 @@ import org.json.simple.JSONValue;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import hudson.model.Result;
-import java.io.IOException;
 
 
-public class HelloWorldBuilder extends Builder implements SimpleBuildStep {
+import java.net.MalformedURLException;
+
+public class EvolvenBuilder extends Builder implements SimpleBuildStep {
 
     private final String apiUrl;
     private final String username;
@@ -41,7 +42,7 @@ public class HelloWorldBuilder extends Builder implements SimpleBuildStep {
     private final String hosts;
 
     @DataBoundConstructor
-    public HelloWorldBuilder(String apiUrl, String username, String password, String app, String envId, String hosts) {
+    public EvolvenBuilder(String apiUrl, String username, String password, String app, String envId, String hosts) {
         this.apiUrl = apiUrl;
         this.username = username;
         this.password = password;
@@ -169,16 +170,46 @@ public class HelloWorldBuilder extends Builder implements SimpleBuildStep {
     @Symbol("greet")
     @Extension
     public static final class DescriptorImpl extends BuildStepDescriptor<Builder> {
-
-        public FormValidation doCheckName(@QueryParameter String value, @QueryParameter boolean useFrench)
+        public FormValidation doApiUrlCheck(@QueryParameter String value)
                 throws IOException, ServletException {
             if (value.length() == 0)
-                return FormValidation.error(Messages.HelloWorldBuilder_DescriptorImpl_errors_missingName());
-            if (value.length() < 4)
-                return FormValidation.warning(Messages.HelloWorldBuilder_DescriptorImpl_warnings_tooShort());
-            if (!useFrench && value.matches(".*[éáàç].*")) {
-                return FormValidation.warning(Messages.HelloWorldBuilder_DescriptorImpl_warnings_reallyFrench());
+                return FormValidation.error(Messages.EvolvenBuilder_DescriptorImpl_errors_missingApiUrl());
+            try{
+                URL testURL = new URL(value);
             }
+            catch (MalformedURLException e){
+                return FormValidation.error(Messages.EvolvenBuilder_DescriptorImpl_errors_notAURL());
+            }
+            return FormValidation.ok();
+        }
+        public FormValidation doUsernameCheck(@QueryParameter String value)
+                throws IOException, ServletException {
+            if (value.length() == 0)
+                return FormValidation.error(Messages.EvolvenBuilder_DescriptorImpl_errors_missingUsername());
+            return FormValidation.ok();
+        }
+        public FormValidation doPasswordCheck(@QueryParameter String value)
+                throws IOException, ServletException {
+            if (value.length() == 0)
+                return FormValidation.error(Messages.EvolvenBuilder_DescriptorImpl_errors_missingPassword());
+            return FormValidation.ok();
+        }
+        public FormValidation doAppCheck(@QueryParameter String value)
+                throws IOException, ServletException {
+            if (value.length() == 0)
+                return FormValidation.error(Messages.EvolvenBuilder_DescriptorImpl_errors_missingApp());
+            return FormValidation.ok();
+        }
+        public FormValidation doEnvIdCheck(@QueryParameter String value)
+                throws IOException, ServletException {
+            if (value.length() == 0)
+                return FormValidation.error(Messages.EvolvenBuilder_DescriptorImpl_errors_missingEnvId());
+            return FormValidation.ok();
+        }
+        public FormValidation doHostsCheck(@QueryParameter String value)
+                throws IOException, ServletException {
+            if (value.length() == 0)
+                return FormValidation.error(Messages.EvolvenBuilder_DescriptorImpl_errors_missingHosts());
             return FormValidation.ok();
         }
         // implement checks for variables
@@ -186,11 +217,6 @@ public class HelloWorldBuilder extends Builder implements SimpleBuildStep {
         @Override
         public boolean isApplicable(Class<? extends AbstractProject> aClass) {
             return true;
-        }
-
-        @Override
-        public String getDisplayName() {
-            return Messages.HelloWorldBuilder_DescriptorImpl_DisplayName();
         }
 
     }

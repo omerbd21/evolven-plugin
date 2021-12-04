@@ -12,14 +12,14 @@
   <triggers/>
   <concurrentBuild>false</concurrentBuild>
   <builders>
-    <io.jenkins.plugins.sample.HelloWorldBuilder plugin="evolven-plugin@1.0-SNAPSHOT">
-      <apiUrl>https://host13.evolven.com</apiUrl>
-      <username>omerbd21-jenkins-plugin</username>
-      <password>fRNEDUAKM9nf2uv5</password>
-      <app>a</app>
-      <envId>a</envId>
-      <hosts>a</hosts>
-    </io.jenkins.plugins.sample.HelloWorldBuilder>
+    <io.jenkins.plugins.sample.EvolvenBuilder plugin="evolven-plugin@1.0-SNAPSHOT">
+      <apiUrl>a</apiUrl>
+      <username></username>
+      <password></password>
+      <app></app>
+      <envId></envId>
+      <hosts></hosts>
+    </io.jenkins.plugins.sample.EvolvenBuilder>
   </builders>
   <publishers/>
   <buildWrappers/>

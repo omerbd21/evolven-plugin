@@ -5,7 +5,7 @@ java.net.MalformedURLException: no protocol: a/enlight.server/next/api?action=lo
 	at java.base/java.net.URL.<init>(URL.java:645)
 	at java.base/java.net.URL.<init>(URL.java:541)
 	at java.base/java.net.URL.<init>(URL.java:488)
-	at io.jenkins.plugins.sample.HelloWorldBuilder.perform(HelloWorldBuilder.java:95)
+	at io.jenkins.plugins.sample.EvolvenBuilder.perform(EvolvenBuilder.java:95)
 	at hudson.tasks.BuildStepCompatibilityLayer.perform(BuildStepCompatibilityLayer.java:81)
 	at hudson.tasks.BuildStepMonitor$1.perform(BuildStepMonitor.java:20)
 	at hudson.model.AbstractBuild$AbstractBuildExecution.perform(AbstractBuild.java:744)
