@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Group-Id: io.jenkins.plugins
+Short-Name: evolven-plugin
+Long-Name: TODO Plugin
+Minimum-Java-Version: 1.8
+Plugin-Version: 1.0-SNAPSHOT (private-12/04/2021 14:59-omer)
+Hudson-Version: 2.164.1
+Jenkins-Version: 2.164.1
+Plugin-Dependencies: structs:1.19
+Plugin-Developers: 
+Libraries: /home/omer/IdeaProjects/evolven-plugin/evolven-plugin/src/m
+ ain/resources,/home/omer/IdeaProjects/evolven-plugin/evolven-plugin/t
+ arget/classes,/home/omer/.m2/repository/com/googlecode/json-simple/js
+ on-simple/1.1/json-simple-1.1.jar
+Resource-Path: /home/omer/IdeaProjects/evolven-plugin/evolven-plugin/s
+ rc/main/webapp
+

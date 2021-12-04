@@ -1,0 +1,4 @@
+Started by user unknown or anonymous
+Building in workspace /home/omer/IdeaProjects/evolven-plugin/evolven-plugin/work/workspace/a
+{"Next":{"Type":"BadUsernameOrPasswordException","EvolvenServerIP":"172.30.0.109","Error":{"Message":{"Notify":"true","text":"The username or password you entered is incorrect."}}}}
+Finished: SUCCESS

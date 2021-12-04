@@ -1,0 +1,17 @@
+Started by user unknown or anonymous
+Building in workspace /home/omer/IdeaProjects/evolven-plugin/evolven-plugin/work/workspace/a
+ERROR: Build step failed with exception
+java.lang.ClassCastException: class org.json.simple.JSONObject cannot be cast to class java.lang.String (org.json.simple.JSONObject is in unnamed module of loader hudson.ClassicPluginStrategy$AntClassLoader2 @10f4e01b; java.lang.String is in module java.base of loader 'bootstrap')
+	at io.jenkins.plugins.sample.HelloWorldBuilder.perform(HelloWorldBuilder.java:103)
+	at hudson.tasks.BuildStepCompatibilityLayer.perform(BuildStepCompatibilityLayer.java:81)
+	at hudson.tasks.BuildStepMonitor$1.perform(BuildStepMonitor.java:20)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.perform(AbstractBuild.java:744)
+	at hudson.model.Build$BuildExecution.build(Build.java:206)
+	at hudson.model.Build$BuildExecution.doRun(Build.java:163)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.run(AbstractBuild.java:504)
+	at hudson.model.Run.execute(Run.java:1816)
+	at hudson.model.FreeStyleBuild.run(FreeStyleBuild.java:43)
+	at hudson.model.ResourceController.execute(ResourceController.java:97)
+	at hudson.model.Executor.run(Executor.java:429)
+Build step 'Set evolven credentials' marked build as failure
+Finished: FAILURE
