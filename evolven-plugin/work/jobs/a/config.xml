@@ -11,7 +11,16 @@
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers/>
   <concurrentBuild>false</concurrentBuild>
-  <builders/>
+  <builders>
+    <io.jenkins.plugins.sample.EvolvenBuilder plugin="evolven-plugin@1.0-SNAPSHOT">
+      <apiUrl>https://host13.evolven.com</apiUrl>
+      <username>omerbd21-jenkins-plugin</username>
+      <password>fRNEDUAKM9nf2uv5</password>
+      <app>.Online Banking</app>
+      <envId>50368098</envId>
+      <hosts>US_OB_PROD_DB_001,US_OB_PROD_DB_002,US_OB_PROD_WEB_001,US_OB_PROD_WEB_002,US_OB_PROD_WEB_003</hosts>
+    </io.jenkins.plugins.sample.EvolvenBuilder>
+  </builders>
   <publishers/>
   <buildWrappers/>
 </project>

@@ -23,11 +23,11 @@ import java.util.Calendar;
 import java.util.Scanner;
 import java.net.URL;
 import java.net.HttpURLConnection;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
+import org.json.simple.*;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import hudson.model.Result;
+import java.net.MalformedURLException;
 
 
 import java.net.MalformedURLException;
@@ -71,10 +71,6 @@ public class EvolvenBuilder extends Builder implements SimpleBuildStep {
     }
 
 
-    /*@DataBoundSetter
-    public void setUseFrench(boolean useFrench) {
-        this.useFrench = useFrench;
-    }*/
     private String getDate(long millis){
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(millis);
@@ -110,21 +106,88 @@ public class EvolvenBuilder extends Builder implements SimpleBuildStep {
         listener.getLogger().println("ERROR in step " + step);
         return new JSONObject();
     }
+    private JSONArray sendRequest(URL url, TaskListener listener) {
+        try {
+            HttpURLConnection connection = null;
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            int status = connection.getResponseCode();
+            if (status == 200) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                br.close();
+                String response = sb.toString();
+                JSONArray jsonArray = (JSONArray) JSONValue.parse(response);
+                return jsonArray;
+            }
+        }
+        catch (java.io.IOException io){
+            listener.getLogger().println(io);
+        }
+        listener.getLogger().println("ERROR in step parsing JSONArray");
+        return new JSONArray();
+    }
+    private String getCommits(TaskListener listener){
+        try{
+            URL githubURL = new URL("https://api.github.com/repos/evolven-software/evolven-api-python/branches");
+            JSONArray branches = sendRequest(githubURL, listener);
+            listener.getLogger().println(branches);
+            String sha = "";
+            for (int i = 0; i < branches.size(); i++) {
+                JSONObject branchObj = (JSONObject)branches.get(i);
+                if ((String)branchObj.get("name") == "master" ||
+                        (String)branchObj.get("name") == "main")
+                {
+                    JSONObject branch = (JSONObject) branches.get(i);
+                    JSONObject commitObj = (JSONObject) branch.get("commit");
+                    sha = (String) commitObj.get("sha");
+                    break;
+                }
+            }
+            if (sha == ""){
+                listener.getLogger().println("No Commits");
+                System.exit(-1);
+            }
+            URL commitsURL = new URL(String.format("https://api.github.com/repos/evolven-software/" +
+                    "evolven-api-python/commits?per_page=100&sha=%s", sha));
+            JSONArray commits = sendRequest(commitsURL, listener);
+            String commitIDs = "";
+            for (int j=0; j<commits.size(); j++){
+                JSONObject commit = (JSONObject) commits.get(j);
+                String commitSha = (String) commit.get("sha");
+                commitIDs += commit + ",";
+            }
+            commitIDs = commitIDs.substring(0, commitIDs.length() - 1);
+            return commitIDs;
+        }
+        catch (MalformedURLException e){
+            return "";
+        }
+
+    }
     @Override
     public void perform(Run<?, ?> run, FilePath workspace, Launcher launcher, TaskListener listener) throws InterruptedException, IOException {
         //Use login to fetch session ID
         String deploymentId = run.getId();
         //Get deploymentKey
         String deploymentKey = run.getFullDisplayName();
+        listener.getLogger().println(deploymentKey + " " + deploymentId);
         deploymentKey = deploymentKey.replaceAll("\\s", "");
+        deploymentKey = deploymentKey.replaceAll("#", "");
         // Get deploymentStart
         long millis = run.getStartTimeInMillis();
         String deploymentStart = getDate(millis);
         // Get deployment commit ids
-        String deploymentCommits = "";
+        String deploymentCommits = getCommits(listener);
         // Get deployment deeplink (Jenkins URL with deployment id)
         //String deploymentDeeplink = run.getAbsoluteUrl();
         String deploymentDeeplink = "http://localhost:8080/jenkins/a/5";
+
+
 
         String loginUrl = String.format("/enlight.server/next/api?action=login&json=true&&" +
                 "user=%s&pass=%s", this.username, this.password);
