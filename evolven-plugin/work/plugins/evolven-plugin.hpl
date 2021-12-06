@@ -3,15 +3,15 @@ Group-Id: io.jenkins.plugins
 Short-Name: evolven-plugin
 Long-Name: TODO Plugin
 Minimum-Java-Version: 1.8
-Plugin-Version: 1.0-SNAPSHOT (private-b9023f6b-omer)
+Plugin-Version: 1.0-SNAPSHOT (private-d9de772e-root)
 Hudson-Version: 2.164.1
 Jenkins-Version: 2.164.1
 Plugin-Dependencies: structs:1.19
 Plugin-Developers: 
 Libraries: /home/omer/IdeaProjects/evolven-plugin/evolven-plugin/src/m
  ain/resources,/home/omer/IdeaProjects/evolven-plugin/evolven-plugin/t
- arget/classes,/home/omer/.m2/repository/com/googlecode/json-simple/js
- on-simple/1.1/json-simple-1.1.jar
+ arget/classes,/root/.m2/repository/com/googlecode/json-simple/json-si
+ mple/1.1/json-simple-1.1.jar
 Resource-Path: /home/omer/IdeaProjects/evolven-plugin/evolven-plugin/s
  rc/main/webapp
 

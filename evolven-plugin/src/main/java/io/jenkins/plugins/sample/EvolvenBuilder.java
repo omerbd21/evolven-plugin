@@ -170,46 +170,46 @@ public class EvolvenBuilder extends Builder implements SimpleBuildStep {
     @Symbol("greet")
     @Extension
     public static final class DescriptorImpl extends BuildStepDescriptor<Builder> {
-        public FormValidation doApiUrlCheck(@QueryParameter String value)
+        public FormValidation doCheckApiUrl(@QueryParameter String value)
                 throws IOException, ServletException {
             if (value.length() == 0)
-                return FormValidation.error(Messages.EvolvenBuilder_DescriptorImpl_errors_missingApiUrl());
+                return FormValidation.error("You have to put in an Evolven host url!");
             try{
                 URL testURL = new URL(value);
             }
             catch (MalformedURLException e){
-                return FormValidation.error(Messages.EvolvenBuilder_DescriptorImpl_errors_notAURL());
+                return FormValidation.error("That's not a URL");
             }
             return FormValidation.ok();
         }
-        public FormValidation doUsernameCheck(@QueryParameter String value)
+        public FormValidation doCheckUsername(@QueryParameter String value)
                 throws IOException, ServletException {
             if (value.length() == 0)
-                return FormValidation.error(Messages.EvolvenBuilder_DescriptorImpl_errors_missingUsername());
+                return FormValidation.error("You have to put in a username");
             return FormValidation.ok();
         }
-        public FormValidation doPasswordCheck(@QueryParameter String value)
+        public FormValidation doCheckPassword(@QueryParameter String value)
                 throws IOException, ServletException {
             if (value.length() == 0)
-                return FormValidation.error(Messages.EvolvenBuilder_DescriptorImpl_errors_missingPassword());
+                return FormValidation.error("You have to put in a password");
             return FormValidation.ok();
         }
-        public FormValidation doAppCheck(@QueryParameter String value)
+        public FormValidation doCheckApp(@QueryParameter String value)
                 throws IOException, ServletException {
             if (value.length() == 0)
-                return FormValidation.error(Messages.EvolvenBuilder_DescriptorImpl_errors_missingApp());
+                return FormValidation.error("You have to put in an App");
             return FormValidation.ok();
         }
-        public FormValidation doEnvIdCheck(@QueryParameter String value)
+        public FormValidation doCheckEnvId(@QueryParameter String value)
                 throws IOException, ServletException {
             if (value.length() == 0)
-                return FormValidation.error(Messages.EvolvenBuilder_DescriptorImpl_errors_missingEnvId());
+                return FormValidation.error("You have to put in an Environment ID");
             return FormValidation.ok();
         }
-        public FormValidation doHostsCheck(@QueryParameter String value)
+        public FormValidation doCheckHosts(@QueryParameter String value)
                 throws IOException, ServletException {
             if (value.length() == 0)
-                return FormValidation.error(Messages.EvolvenBuilder_DescriptorImpl_errors_missingHosts());
+                return FormValidation.error("You have to put in the hosts list");
             return FormValidation.ok();
         }
         // implement checks for variables
@@ -217,6 +217,10 @@ public class EvolvenBuilder extends Builder implements SimpleBuildStep {
         @Override
         public boolean isApplicable(Class<? extends AbstractProject> aClass) {
             return true;
+        }
+        @Override
+        public String getDisplayName() {
+            return "Set Evolven Credentials";
         }
 
     }

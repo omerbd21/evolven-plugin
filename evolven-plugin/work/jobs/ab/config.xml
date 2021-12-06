@@ -11,7 +11,16 @@
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers/>
   <concurrentBuild>false</concurrentBuild>
-  <builders/>
+  <builders>
+    <io.jenkins.plugins.sample.EvolvenBuilder plugin="evolven-plugin@1.0-SNAPSHOT">
+      <apiUrl>aaaaaa</apiUrl>
+      <username></username>
+      <password></password>
+      <app></app>
+      <envId></envId>
+      <hosts></hosts>
+    </io.jenkins.plugins.sample.EvolvenBuilder>
+  </builders>
   <publishers/>
   <buildWrappers/>
 </project>
