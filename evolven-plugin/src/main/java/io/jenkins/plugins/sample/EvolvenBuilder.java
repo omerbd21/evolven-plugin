@@ -184,9 +184,8 @@ public class EvolvenBuilder extends Builder implements SimpleBuildStep {
         // Get deployment commit ids
         String deploymentCommits = getCommits(listener);
         // Get deployment deeplink (Jenkins URL with deployment id)
-        //String deploymentDeeplink = run.getAbsoluteUrl();
-        String deploymentDeeplink = "http://localhost:8080/jenkins/a/5";
-
+        String deploymentDeeplink = run.getAbsoluteUrl();
+        
 
 
         String loginUrl = String.format("/enlight.server/next/api?action=login&json=true&&" +
