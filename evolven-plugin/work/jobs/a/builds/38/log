@@ -1,0 +1,10 @@
+Started by user unknown or anonymous
+Building in workspace /home/omer/IdeaProjects/evolven-plugin/evolven-plugin/work/workspace/a
+{"sha":"d8fdd595bc363efc2bd4726857f982a85d3c1939","url":"https:\/\/api.github.com\/repos\/evolven-software\/evolven-api-python\/commits\/d8fdd595bc363efc2bd4726857f982a85d3c1939"}
+No Commits
+{"Next":{"Role":"DevOps","IsAdmin":"false","EvolvenServerIP":"172.30.0.109","User":"omerbd21-jenkins-plugin","Message":{"Notify":"false","Title":"Evolven","text":"Welcome to Evolven Next."},"ID":"73bfe0d5ae698ebb382ce478c8e13b47b7b8cc0b"}}
+{"Next":{"EvolvenServerIP":"172.30.0.109","Message":{"Notify":"false","Title":"Blended Event","text":"The Blended Event was created"},"ID":"74991"}}
+{"Next":{"EvolvenServerIP":"172.30.0.109","Task":"1636058937084","Message":{"Notify":"false","Title":"Snapshots","text":"Snapshot \"a38\" created and will be updated after scan has finished."},"ID":"7269"}}
+Evolven scan triggered.
+Build step 'Evolven post-deploy scan' changed build result to FAILURE
+Finished: FAILURE

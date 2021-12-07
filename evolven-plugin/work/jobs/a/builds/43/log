@@ -1,0 +1,9 @@
+Started by user unknown or anonymous
+Building in workspace /home/omer/IdeaProjects/evolven-plugin/evolven-plugin/work/workspace/a
+d8fdd595bc363efc2bd4726857f982a85d3c1939,5d573494f1062f0282521fd1111ffe204bd4a101,43fc5497d01a65df298e95bb0e8e8496a7166fb0,b840cdb4ebca9440a0a00f413634507a74f4c9dc,0e832bea6a0f7376a38ca463b418ac01d99540e9,69b3fcc8b42fa8fa60ca9970fa451277461826f0
+{"Next":{"Role":"DevOps","IsAdmin":"false","EvolvenServerIP":"172.30.0.109","User":"omerbd21-jenkins-plugin","Message":{"Notify":"false","Title":"Evolven","text":"Welcome to Evolven Next."},"ID":"067e6bfd26e743c34ecf2cb3d4415334c3501dcf"}}
+{"Next":{"EvolvenServerIP":"172.30.0.109","Message":{"Notify":"false","Title":"Blended Event","text":"The Blended Event was created"},"ID":"74994"}}
+{"Next":{"EvolvenServerIP":"172.30.0.109","Task":"1636058937089","Message":{"Notify":"false","Title":"Snapshots","text":"Snapshot \"a43\" created and will be updated after scan has finished."},"ID":"7274"}}
+Evolven scan triggered.
+Build step 'Evolven post-deploy scan' changed build result to FAILURE
+Finished: FAILURE

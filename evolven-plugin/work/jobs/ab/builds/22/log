@@ -1,0 +1,5 @@
+Started by user unknown or anonymous
+Building in workspace /home/omer/IdeaProjects/evolven-plugin/evolven-plugin/work/workspace/ab
+{"Next":{"Role":"DevOps","IsAdmin":"false","EvolvenServerIP":"172.30.0.109","User":"omerbd21-jenkins-plugin","Message":{"Notify":"false","Title":"Evolven","text":"Welcome to Evolven Next."},"ID":"99b8e3b1cdb68270e098e065366616d9ad497f49"}}
+{"Next":{"EvolvenServerIP":"172.30.0.109","Message":{"Notify":"false","Title":"Blended Event","text":"The Blended Event was created"},"ID":"73886"}}
+Finished: SUCCESS

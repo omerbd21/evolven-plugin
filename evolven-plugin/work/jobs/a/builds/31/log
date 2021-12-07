@@ -1,0 +1,12 @@
+Started by user unknown or anonymous
+Building in workspace /home/omer/IdeaProjects/evolven-plugin/evolven-plugin/work/workspace/a
+[{"protected":false,"name":"master","commit":{"sha":"d8fdd595bc363efc2bd4726857f982a85d3c1939","url":"https:\/\/api.github.com\/repos\/evolven-software\/evolven-api-python\/commits\/d8fdd595bc363efc2bd4726857f982a85d3c1939"}},{"protected":false,"name":"search-api","commit":{"sha":"5d573494f1062f0282521fd1111ffe204bd4a101","url":"https:\/\/api.github.com\/repos\/evolven-software\/evolven-api-python\/commits\/5d573494f1062f0282521fd1111ffe204bd4a101"}}]
+No Commits
+{"Next":{"Role":"DevOps","IsAdmin":"false","EvolvenServerIP":"172.30.0.109","User":"omerbd21-jenkins-plugin","Message":{"Notify":"false","Title":"Evolven","text":"Welcome to Evolven Next."},"ID":"8f66483574e8256aeabdb19931cd53c250db610e"}}
+{"Next":{"EvolvenServerIP":"172.30.0.109","Message":{"Notify":"false","Title":"Blended Event","text":"The Blended Event was created"},"ID":"74985"}}
+{"Next":{"EvolvenServerIP":"172.30.0.109","Task":"1636058937078","Message":{"Notify":"false","Title":"Snapshots","text":"Snapshot \"a31\" created and will be updated after scan has finished."},"ID":"7263"}}
+Evolven scan triggered.
+Build step 'Evolven post-deploy scan' changed build result to FAILURE
+Build was aborted
+Aborted by [8mha:////4BuxqWkKLP/keh6dhotEKOGkDpUkWGGYajPA2hhxnWTKAAAAmR+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAz2EgZe/dLi1CL90rzsvPzyPAATbMabwgAAAA==[0munknown
+Finished: ABORTED

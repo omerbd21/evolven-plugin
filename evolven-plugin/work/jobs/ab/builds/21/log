@@ -1,0 +1,8 @@
+Started by user unknown or anonymous
+Building in workspace /home/omer/IdeaProjects/evolven-plugin/evolven-plugin/work/workspace/ab
+{"Next":{"Role":"DevOps","IsAdmin":"false","EvolvenServerIP":"172.30.0.109","User":"omerbd21-jenkins-plugin","Message":{"Notify":"false","Title":"Evolven","text":"Welcome to Evolven Next."},"ID":"37470d9aa4d2e837fe5299e7192be5297f0fe189"}}
+java.io.IOException: Server returned HTTP response code: 400 for URL: https://host13.evolven.com/enlight.server/next/blended?action=create&json=true&EvolvenSessionKey=37470d9aa4d2e837fe5299e7192be5297f0fe189&event=ab21&eventId=21&type=Deployment&source=Jenkins&host=US_OB_PROD_DB_001,US_OB_PROD_DB_002,US_OB_PROD_WEB_001,US_OB_PROD_WEB_002,US_OB_PROD_WEB_003&message=123&start=11/7/2021&envId=50368098&ApplicationName=.Online Banking&deeplink=&authorized=true&automatic=true
+ERROR in step 2
+{}
+Build step 'Set Evolven Credentials' changed build result to FAILURE
+Finished: FAILURE

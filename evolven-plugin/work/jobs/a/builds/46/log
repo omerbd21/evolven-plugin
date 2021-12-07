@@ -1,0 +1,7 @@
+Started by user unknown or anonymous
+Building in workspace /home/omer/IdeaProjects/evolven-plugin/evolven-plugin/work/workspace/a
+{"Next":{"Role":"DevOps","IsAdmin":"false","EvolvenServerIP":"172.30.0.109","User":"omerbd21-jenkins-plugin","Message":{"Notify":"false","Title":"Evolven","text":"Welcome to Evolven Next."},"ID":"5babdf8e3c2c2463f4aea245a2c9f090c8ae6b44"}}
+{"Next":{"EvolvenServerIP":"172.30.0.109","Message":{"Notify":"false","Title":"Blended Event","text":"The Blended Event was created"},"ID":"74996"}}
+{"Next":{"EvolvenServerIP":"172.30.0.109","Task":"1636058937090","Message":{"Notify":"false","Title":"Snapshots","text":"Snapshot \"a46\" created and will be updated after scan has finished."},"ID":"7275"}}
+Evolven scan triggered.
+Finished: SUCCESS

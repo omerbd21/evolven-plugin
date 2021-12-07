@@ -1,0 +1,7 @@
+Started by user unknown or anonymous
+Building in workspace /home/omer/IdeaProjects/evolven-plugin/evolven-plugin/work/workspace/ab
+{"Next":{"Role":"DevOps","IsAdmin":"false","EvolvenServerIP":"172.30.0.109","User":"omerbd21-jenkins-plugin","Message":{"Notify":"false","Title":"Evolven","text":"Welcome to Evolven Next."},"ID":"f0e3bb1db1867e51d8691e75288373500d7514af"}}
+ERROR in step 2
+{}
+Build step 'Set Evolven Credentials' changed build result to FAILURE
+Finished: FAILURE

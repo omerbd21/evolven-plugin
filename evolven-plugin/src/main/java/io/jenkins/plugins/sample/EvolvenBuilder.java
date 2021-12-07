@@ -135,22 +135,20 @@ public class EvolvenBuilder extends Builder implements SimpleBuildStep {
         try{
             URL githubURL = new URL("https://api.github.com/repos/evolven-software/evolven-api-python/branches");
             JSONArray branches = sendRequest(githubURL, listener);
-            listener.getLogger().println(branches);
             String sha = "";
             for (int i = 0; i < branches.size(); i++) {
                 JSONObject branchObj = (JSONObject)branches.get(i);
-                if ((String)branchObj.get("name") == "master" ||
-                        (String)branchObj.get("name") == "main")
+                if (branchObj.get("name").equals("master") ||
+                        branchObj.get("name").equals("main"))
                 {
-                    JSONObject branch = (JSONObject) branches.get(i);
-                    JSONObject commitObj = (JSONObject) branch.get("commit");
+                    JSONObject commitObj = (JSONObject) branchObj.get("commit");
                     sha = (String) commitObj.get("sha");
                     break;
                 }
             }
             if (sha == ""){
                 listener.getLogger().println("No Commits");
-                System.exit(-1);
+                return "";
             }
             URL commitsURL = new URL(String.format("https://api.github.com/repos/evolven-software/" +
                     "evolven-api-python/commits?per_page=100&sha=%s", sha));
@@ -159,7 +157,7 @@ public class EvolvenBuilder extends Builder implements SimpleBuildStep {
             for (int j=0; j<commits.size(); j++){
                 JSONObject commit = (JSONObject) commits.get(j);
                 String commitSha = (String) commit.get("sha");
-                commitIDs += commit + ",";
+                commitIDs += commitSha + ",";
             }
             commitIDs = commitIDs.substring(0, commitIDs.length() - 1);
             return commitIDs;
@@ -167,7 +165,6 @@ public class EvolvenBuilder extends Builder implements SimpleBuildStep {
         catch (MalformedURLException e){
             return "";
         }
-
     }
     @Override
     public void perform(Run<?, ?> run, FilePath workspace, Launcher launcher, TaskListener listener) throws InterruptedException, IOException {
@@ -175,7 +172,6 @@ public class EvolvenBuilder extends Builder implements SimpleBuildStep {
         String deploymentId = run.getId();
         //Get deploymentKey
         String deploymentKey = run.getFullDisplayName();
-        listener.getLogger().println(deploymentKey + " " + deploymentId);
         deploymentKey = deploymentKey.replaceAll("\\s", "");
         deploymentKey = deploymentKey.replaceAll("#", "");
         // Get deploymentStart
@@ -183,10 +179,12 @@ public class EvolvenBuilder extends Builder implements SimpleBuildStep {
         String deploymentStart = getDate(millis);
         // Get deployment commit ids
         String deploymentCommits = getCommits(listener);
+        if (deploymentCommits == "")
+        {
+            run.setResult(Result.fromString("FAILURE"));
+        }
         // Get deployment deeplink (Jenkins URL with deployment id)
-        //String deploymentDeeplink = run.getAbsoluteUrl();
-        String deploymentDeeplink = "http://localhost:8080/jenkins/a/5";
-
+        String deploymentDeeplink = run.getAbsoluteUrl();
 
 
         String loginUrl = String.format("/enlight.server/next/api?action=login&json=true&&" +
@@ -195,22 +193,30 @@ public class EvolvenBuilder extends Builder implements SimpleBuildStep {
         JSONObject login = sendRequest(loginRequest, 1, listener);
         if (login.toString().equals("{}")) {
             run.setResult(Result.fromString("FAILURE"));
-            System.exit(-1);
         }
         JSONObject next = (JSONObject) login.get("Next");
         String sessionId = (String) next.get("ID");
         listener.getLogger().println(login.toString());
 
 
-        String blendedUrl = String.format("/enlight.server/next/blended?action=create&json=true&EvolvenSessionKey=%s" +
-                "&event=$deploymentKey&eventId=%s&type=Deployment&source=Jenkins&host=%s&message=%s&start=%s" +
-                "&envId=%s&ApplicationName=%s&deeplink=%s&authorized=true&automatic=true", sessionId, deploymentKey,
-                deploymentId, hosts, deploymentCommits, deploymentStart, envId, app, deploymentDeeplink );
+        String blendedUrl = String.format("/enlight.server/next/blended?action=create" +
+                "&json=true" +
+                "&EvolvenSessionKey=%s" +
+                "&event=%s" +
+                "&eventId=%s" +
+                "&type=Deployment" +
+                "&source=Jenkins" +
+                "&host=%s" +
+                "&message=%s" +
+                "&start=%s" +
+                "&envId=%s" +
+                "&ApplicationName=%s",
+                sessionId, deploymentKey, deploymentId, hosts, deploymentCommits, deploymentStart, envId, app,
+                deploymentDeeplink);
         URL blendedRequest = new URL(this.apiUrl + blendedUrl);
         JSONObject blended = sendRequest(blendedRequest, 2, listener);
         if (blended.toString().equals("{}")) {
             run.setResult(Result.fromString("FAILURE"));
-            System.exit(-1);
         }
         listener.getLogger().println(blended.toString());
 
@@ -222,12 +228,9 @@ public class EvolvenBuilder extends Builder implements SimpleBuildStep {
         JSONObject snapshot = sendRequest(snapshotRequest, 3, listener);
         if (snapshot.toString().equals("{}")) {
             run.setResult(Result.fromString("FAILURE"));
-            System.exit(-1);
         }
         listener.getLogger().println(snapshot.toString());
-
         listener.getLogger().println("Evolven scan triggered.");
-
     }
 
     @Symbol("greet")
@@ -275,7 +278,6 @@ public class EvolvenBuilder extends Builder implements SimpleBuildStep {
                 return FormValidation.error("You have to put in the hosts list");
             return FormValidation.ok();
         }
-        // implement checks for variables
 
         @Override
         public boolean isApplicable(Class<? extends AbstractProject> aClass) {
@@ -283,7 +285,7 @@ public class EvolvenBuilder extends Builder implements SimpleBuildStep {
         }
         @Override
         public String getDisplayName() {
-            return "Set Evolven Credentials";
+            return "Evolven post-deploy scan";
         }
 
     }
