@@ -8,7 +8,7 @@ Implementation-Title: evolven-plugin
 Implementation-Version: 1.0-SNAPSHOT
 Group-Id: io.jenkins.plugins
 Short-Name: evolven-plugin
-Long-Name: TODO Plugin
+Long-Name: Evolven Plugin
 Minimum-Java-Version: 1.8
 Plugin-Version: 1.0-SNAPSHOT (private-93ef47c1-omer)
 Hudson-Version: 2.164.1

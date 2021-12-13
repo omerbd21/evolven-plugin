@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Group-Id: io.jenkins.plugins
 Short-Name: evolven-plugin
-Long-Name: TODO Plugin
+Long-Name: Evolven Plugin
 Minimum-Java-Version: 1.8
-Plugin-Version: 1.0-SNAPSHOT (private-8424612c-root)
+Plugin-Version: 1.0-SNAPSHOT (private-9263256b-root)
 Hudson-Version: 2.164.1
 Jenkins-Version: 2.164.1
 Plugin-Dependencies: structs:1.19
