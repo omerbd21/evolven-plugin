@@ -1,0 +1,10 @@
+Started by user unknown or anonymous
+Building in workspace /home/omer/IdeaProjects/evolven-plugin/evolven-plugin/work/workspace/ab
+0
+{"Next":{"Role":"DevOps","IsAdmin":"false","EvolvenServerIP":"172.30.0.109","User":"omerbd21-jenkins-plugin","Message":{"Notify":"false","Title":"Evolven","text":"Welcome to Evolven Next."},"ID":"86acd111415c56d7f44902b8a1980f783b52564a"}}
+ERROR in step 2
+{}
+{"Next":{"EvolvenServerIP":"172.30.0.109","Task":"1636058949178","Message":{"Notify":"false","Title":"Snapshots","text":"Snapshot \"ab26\" created and will be updated after scan has finished."},"ID":"9463"}}
+Evolven scan triggered.
+Build step 'Evolven post-deploy scan' changed build result to FAILURE
+Finished: FAILURE

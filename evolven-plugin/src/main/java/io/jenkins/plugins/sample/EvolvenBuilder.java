@@ -24,12 +24,12 @@ import java.util.Scanner;
 import java.net.URL;
 import java.net.HttpURLConnection;
 import org.json.simple.*;
+import jenkins.scm.api.*;
+import jenkins.plugins.git.AbstractGitSCMSource;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import hudson.model.Result;
 import java.net.MalformedURLException;
-
-
 import java.net.MalformedURLException;
 
 public class EvolvenBuilder extends Builder implements SimpleBuildStep {
@@ -106,65 +106,19 @@ public class EvolvenBuilder extends Builder implements SimpleBuildStep {
         listener.getLogger().println("ERROR in step " + step);
         return new JSONObject();
     }
-    private JSONArray sendRequest(URL url, TaskListener listener) {
-        try {
-            HttpURLConnection connection = null;
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            int status = connection.getResponseCode();
-            if (status == 200) {
-                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                StringBuilder sb = new StringBuilder();
-                String line;
-                while ((line = br.readLine()) != null) {
-                    sb.append(line + "\n");
-                }
-                br.close();
-                String response = sb.toString();
-                JSONArray jsonArray = (JSONArray) JSONValue.parse(response);
-                return jsonArray;
-            }
+    private int getCommits(Run<?, ?> run){
+        SCMRevisionAction scmRevisionAction = run.getAction(SCMRevisionAction.class);
+        if (null == scmRevisionAction) {
+            return 0;
         }
-        catch (java.io.IOException io){
-            listener.getLogger().println(io);
+        SCMRevision revision = scmRevisionAction.getRevision();
+        int hash;
+        if (revision instanceof AbstractGitSCMSource.SCMRevisionImpl) {
+            hash = ((AbstractGitSCMSource.SCMRevisionImpl) revision).hashCode();
+        } else {
+            hash = 0;
         }
-        listener.getLogger().println("ERROR in step parsing JSONArray");
-        return new JSONArray();
-    }
-    private String getCommits(TaskListener listener){
-        try{
-            URL githubURL = new URL("https://api.github.com/repos/evolven-software/evolven-api-python/branches");
-            JSONArray branches = sendRequest(githubURL, listener);
-            String sha = "";
-            for (int i = 0; i < branches.size(); i++) {
-                JSONObject branchObj = (JSONObject)branches.get(i);
-                if (branchObj.get("name").equals("master") ||
-                        branchObj.get("name").equals("main"))
-                {
-                    JSONObject commitObj = (JSONObject) branchObj.get("commit");
-                    sha = (String) commitObj.get("sha");
-                    break;
-                }
-            }
-            if (sha == ""){
-                listener.getLogger().println("No Commits");
-                return "";
-            }
-            URL commitsURL = new URL(String.format("https://api.github.com/repos/evolven-software/" +
-                    "evolven-api-python/commits?per_page=100&sha=%s", sha));
-            JSONArray commits = sendRequest(commitsURL, listener);
-            String commitIDs = "";
-            for (int j=0; j<commits.size(); j++){
-                JSONObject commit = (JSONObject) commits.get(j);
-                String commitSha = (String) commit.get("sha");
-                commitIDs += commitSha + ",";
-            }
-            commitIDs = commitIDs.substring(0, commitIDs.length() - 1);
-            return commitIDs;
-        }
-        catch (MalformedURLException e){
-            return "";
-        }
+        return hash;
     }
     @Override
     public void perform(Run<?, ?> run, FilePath workspace, Launcher launcher, TaskListener listener) throws InterruptedException, IOException {
@@ -178,11 +132,13 @@ public class EvolvenBuilder extends Builder implements SimpleBuildStep {
         long millis = run.getStartTimeInMillis();
         String deploymentStart = getDate(millis);
         // Get deployment commit ids
-        String deploymentCommits = getCommits(listener);
-        if (deploymentCommits == "")
-        {
+        Run<?, ?> lastBuilt = run.getPreviousSuccessfulBuild();
+        int deploymentCommits = getCommits(lastBuilt);
+        if (deploymentCommits == 0){
             run.setResult(Result.fromString("FAILURE"));
+            return;
         }
+        listener.getLogger().println(deploymentCommits);
         // Get deployment deeplink (Jenkins URL with deployment id)
         String deploymentDeeplink = run.getAbsoluteUrl();
 
@@ -193,6 +149,7 @@ public class EvolvenBuilder extends Builder implements SimpleBuildStep {
         JSONObject login = sendRequest(loginRequest, 1, listener);
         if (login.toString().equals("{}")) {
             run.setResult(Result.fromString("FAILURE"));
+            return;
         }
         JSONObject next = (JSONObject) login.get("Next");
         String sessionId = (String) next.get("ID");
@@ -217,6 +174,7 @@ public class EvolvenBuilder extends Builder implements SimpleBuildStep {
         JSONObject blended = sendRequest(blendedRequest, 2, listener);
         if (blended.toString().equals("{}")) {
             run.setResult(Result.fromString("FAILURE"));
+            return;
         }
         listener.getLogger().println(blended.toString());
 
@@ -228,6 +186,7 @@ public class EvolvenBuilder extends Builder implements SimpleBuildStep {
         JSONObject snapshot = sendRequest(snapshotRequest, 3, listener);
         if (snapshot.toString().equals("{}")) {
             run.setResult(Result.fromString("FAILURE"));
+            return;
         }
         listener.getLogger().println(snapshot.toString());
         listener.getLogger().println("Evolven scan triggered.");

@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Built-By: omer
+Built-By: root
 Created-By: Apache Maven
 Build-Jdk: 11.0.13
 Extension-Name: evolven-plugin
@@ -10,9 +10,9 @@ Group-Id: io.jenkins.plugins
 Short-Name: evolven-plugin
 Long-Name: Evolven Plugin
 Minimum-Java-Version: 1.8
-Plugin-Version: 1.0-SNAPSHOT (private-93ef47c1-omer)
+Plugin-Version: 1.0-SNAPSHOT (private-f9ff8077-root)
 Hudson-Version: 2.164.1
 Jenkins-Version: 2.164.1
-Plugin-Dependencies: structs:1.19
+Plugin-Dependencies: git:4.0.0-beta9,scm-api:2.4.1,structs:1.19
 Plugin-Developers: 
 
